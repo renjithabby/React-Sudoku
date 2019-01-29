@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> It matches the snapshot 1`] = `
+<div
+  className="footer-container"
+>
+  <span>
+    Please choose an input value first
+  </span>
+  <div
+    className="footer-buttons"
+  >
+    <button
+      className="footer-button "
+      key="1"
+      onClick={[Function]}
+      value={1}
+    >
+       
+      1
+    </button>
+    <button
+      className="footer-button "
+      key="2"
+      onClick={[Function]}
+      value={2}
+    >
+       
+      2
+    </button>
+    <button
+      className="footer-button "
+      key="3"
+      onClick={[Function]}
+      value={3}
+    >
+       
+      3
+    </button>
+    <button
+      className="footer-button "
+      key="4"
+      onClick={[Function]}
+      value={4}
+    >
+       
+      4
+    </button>
+    <button
+      className="footer-button "
+      key="5"
+      onClick={[Function]}
+      value={5}
+    >
+       
+      5
+    </button>
+    <button
+      className="footer-button "
+      key="6"
+      onClick={[Function]}
+      value={6}
+    >
+       
+      6
+    </button>
+    <button
+      className="footer-button "
+      key="7"
+      onClick={[Function]}
+      value={7}
+    >
+       
+      7
+    </button>
+    <button
+      className="footer-button "
+      key="8"
+      onClick={[Function]}
+      value={8}
+    >
+       
+      8
+    </button>
+    <button
+      className="footer-button "
+      key="9"
+      onClick={[Function]}
+      value={9}
+    >
+       
+      9
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<Footer /> It matches the snapshot with props selectedInput value 1`] = `
+<div
+  className="footer-container"
+>
+  <span>
+    Please choose an input value first
+  </span>
+  <div
+    className="footer-buttons"
+  >
+    <button
+      className="footer-button "
+      key="1"
+      onClick={[Function]}
+      value={1}
+    >
+       
+      1
+    </button>
+    <button
+      className="footer-button "
+      key="2"
+      onClick={[Function]}
+      value={2}
+    >
+       
+      2
+    </button>
+    <button
+      className="footer-button "
+      key="3"
+      onClick={[Function]}
+      value={3}
+    >
+       
+      3
+    </button>
+    <button
+      className="footer-button "
+      key="4"
+      onClick={[Function]}
+      value={4}
+    >
+       
+      4
+    </button>
+    <button
+      className="footer-button footer-button--selected"
+      key="5"
+      onClick={[Function]}
+      value={5}
+    >
+       
+      5
+    </button>
+    <button
+      className="footer-button "
+      key="6"
+      onClick={[Function]}
+      value={6}
+    >
+       
+      6
+    </button>
+    <button
+      className="footer-button "
+      key="7"
+      onClick={[Function]}
+      value={7}
+    >
+       
+      7
+    </button>
+    <button
+      className="footer-button "
+      key="8"
+      onClick={[Function]}
+      value={8}
+    >
+       
+      8
+    </button>
+    <button
+      className="footer-button "
+      key="9"
+      onClick={[Function]}
+      value={9}
+    >
+       
+      9
+    </button>
+  </div>
+</div>
+`;

@@ -1,0 +1,28 @@
+.cell-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:40px;
+    min-height:40px;
+    background: blue;
+    color:white;
+    text-align:center;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    cursor:pointer;
+}
+.cell-container--invalid{
+    background: red
+}
+
+.cell-value{
+    font-size: 16px;
+    margin-block-start:0;
+    margin-block-end:0;
+    pointer-events: none;
+}
+
+.cell-container--prefilled{
+    pointer-events: none;
+    color:black;
+}

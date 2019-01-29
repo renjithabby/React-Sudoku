@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Cell /> It matches the snapshot with default values 1`] = `
+<div
+  className="cell-container cell-container--valid "
+  id={0}
+>
+  <span
+    className="cell-value"
+  />
+</div>
+`;
+
+exports[`<Cell /> It matches the snapshot with props "prefilled" & "invalid" set to "true" 1`] = `
+<div
+  className="cell-container cell-container--invalid cell-container--prefilled"
+  id={0}
+>
+  <span
+    className="cell-value"
+  >
+    6
+  </span>
+</div>
+`;

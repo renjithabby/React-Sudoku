@@ -1,0 +1,16 @@
+.grid-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    max-width:370px;
+    min-width:370px;
+    flex-wrap:wrap;
+}
+.grid-container .cell-container:nth-child(3n){
+    border-right: 1px solid white;
+}
+.grid-container .cell-container:nth-child(n+19):nth-child(-n+27),
+.grid-container .cell-container:nth-child(n+46):nth-child(-n+54)
+{
+    border-bottom: 1px solid white;
+}

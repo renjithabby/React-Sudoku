@@ -1,0 +1,24 @@
+.footer-container{  
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding-top:30px;
+    max-width:370px;
+    flex-wrap:wrap;
+}
+.footer-buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding-top:10px;
+  
+}
+.footer-button{
+    background: olivedrab;
+    min-width: 40px;
+    min-height: 40px;
+    cursor:pointer;
+}
+.footer-button--selected{
+    background: purple;
+}
