@@ -17,15 +17,15 @@ const MAX_ROW_VALUE = 9;
  **/
 const initialState ={
     gridBlueprint:[
-        [0,0,3,0,0,6,0,0,0],
-        [0,0,0,7,0,0,0,2,0],
-        [0,0,9,1,0,0,0,5,0],
-        [0,3,0,5,0,7,0,9,1],
-        [5,0,0,8,0,1,0,3,0],
-        [0,9,0,0,0,4,0,6,0],
-        [3,0,5,0,7,0,9,0,2],
-        [0,7,8,0,1,0,3,0,5],
-        [9,0,2,0,4,0,6,0,8]],
+        [8,3,0,1,0,0,6,0,5],
+        [0,0,0,0,0,0,0,8,0],
+        [0,0,0,7,0,0,9,0,0],
+        [0,5,0,0,1,7,0,0,0],
+        [0,0,3,0,0,0,2,0,0],
+        [0,0,0,3,4,0,0,1,0],
+        [0,0,4,0,0,8,0,0,0],
+        [0,9,0,0,0,0,0,0,0],
+        [3,0,2,0,0,6,0,4,7]],
     gridData :[],
     selectedInput:0,
 };
@@ -76,17 +76,23 @@ const evaluateAndUpdateGridData = (gridData, ID, newValue) =>{
     if (!newValue)
         return gridData;
     const cellRow = Math.floor(ID/MAX_ROW_VALUE);
+    const MAX_BOX_ROW =3;
     let newGridData = gridData;
 
     newGridData = updateCellValue(newGridData,cellRow,ID,newValue);
-    for(var row=0; row<MAX_ROW_VALUE;row++){
-        for(var col=0; col<MAX_ROW_VALUE;col++){
+    for(let row=0; row<MAX_ROW_VALUE;row++){
+        for(let col=0; col<MAX_ROW_VALUE;col++){
             newGridData = updateDuplicateRowsEntries(newGridData,row*MAX_ROW_VALUE+col);
         }
     }
-   for(var row1=0; row1<MAX_ROW_VALUE;row1++){
-        for(var col1=0; col1<MAX_ROW_VALUE;col1++){
-            newGridData = updateDuplicateColumnEntry(newGridData,col1*MAX_ROW_VALUE+ row1);
+    for(let row=0; row<MAX_ROW_VALUE;row++){
+        for(let col=0; col<MAX_ROW_VALUE;col++){
+            newGridData = updateDuplicateColumnEntry(newGridData,col*MAX_ROW_VALUE+row);
+        }
+    }
+    for(let row=0; row<MAX_BOX_ROW;row++){
+        for(let col=0; col<MAX_BOX_ROW;col++){
+            newGridData = updateDuplicateBoxEntry(newGridData,col*MAX_BOX_ROW+row*MAX_ROW_VALUE*3);
         }
     }
        
@@ -157,6 +163,65 @@ export const updateDuplicateColumnEntry = (gridData,ID) => {
 
     return newGrid;
 };
+/**
+ * Helper Function
+ * Function to get the starting row and column index from a given cell ID
+ * @param {*} ID 
+ */
+export const getBoxStartingIndexes = (ID) =>{
+    const MAX_ROW_VALUE = 9;
+    const MAX_BOX_ROW = 3;
+    const boxStartingRow = Math.floor(ID/(MAX_ROW_VALUE*MAX_BOX_ROW))*MAX_BOX_ROW;
+    const boxStartingColumn = Math.floor((ID%MAX_ROW_VALUE)/MAX_BOX_ROW)*MAX_BOX_ROW; 
+    return {boxStartingRow,boxStartingColumn};
+}
+/**
+ * Helper Function
+ * Function to get the array of cells in a sudoku box with given start row and column index
+ * @param {*} gridData 
+ * @param {*} boxStartingRow 
+ * @param {*} boxStartingColumn 
+ */
+export const getBoxItems = (gridData,boxStartingRow, boxStartingColumn) => {
+    let boxItems =[];
+    for(let row=boxStartingRow; row<boxStartingRow+3; row++){
+        for(let col=boxStartingColumn; col<boxStartingColumn+3; col++){
+            boxItems = [...boxItems, gridData[row][col]];
+        }
+    }
+    return boxItems;
+};
+/**
+ * Helper Function
+ * Functon for setting and resetting the 'invalid' property of all duplicate box cell entries
+ * @param {*} gridData 
+ * @param {*} ID 
+ * returns new gridData
+ */
+export const updateDuplicateBoxEntry = (gridData, ID) =>{
+    const MAX_BOX_ROW = 3;
+    const {boxStartingRow,boxStartingColumn} = getBoxStartingIndexes(ID);
+    const cloneGridData = JSON.parse(JSON.stringify(gridData));
+    const boxItems = getBoxItems(cloneGridData,boxStartingRow,boxStartingColumn);
+
+    boxItems.forEach(item => {
+        if(!item.value){
+            return
+        }
+        let duplicates = boxItems.find(boxItem =>{
+            return (boxItem.value ===item.value && boxItem.id !==item.id)
+        });
+        for(let row=boxStartingRow; row<boxStartingRow+MAX_BOX_ROW; row++){
+            for(let col=boxStartingColumn; col<boxStartingColumn+MAX_BOX_ROW; col++){
+                if(cloneGridData[row][col].value===item.value && duplicates){
+                    cloneGridData[row][col].invalid = true;
+                }
+            }
+        }
+        
+    });
+    return cloneGridData;
+}
 
 
 export const game =(state = initialState, action)=>{

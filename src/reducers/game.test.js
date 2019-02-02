@@ -1,4 +1,4 @@
-import {getDuplicateRowCellsCount, updateCellValue, updateDuplicateRowsEntries, updateDuplicateColumnEntry, generateGridData} from './game';
+import {generateGridData,getDuplicateRowCellsCount, updateCellValue, updateDuplicateRowsEntries, updateDuplicateColumnEntry, updateDuplicateBoxEntry,getBoxItems,getBoxStartingIndexes} from './game';
 
 describe('game Reducer', () =>{
 
@@ -100,7 +100,7 @@ describe('game Reducer', () =>{
                     prefilled:true
                 }
             ]];
-            const cloneGridData = JSON.parse(JSON.stringify(gridData))
+            const cloneGridData = JSON.parse(JSON.stringify(gridData));
             const newValue = 3;
             const expectedResult = [[
                 {
@@ -224,7 +224,7 @@ describe('game Reducer', () =>{
         })
     });
 
-    describe ('updateDuplicateColumnEntry', () =>{
+    describe('updateDuplicateColumnEntry', () =>{
         it('Should set "invalid" property "true", if there are multiple column values, matching the given cell', () =>{
             const gridData =[
                 [
@@ -498,6 +498,229 @@ describe('game Reducer', () =>{
             const updatedGridData = updateDuplicateColumnEntry(gridData,cellID);
             expect(updatedGridData).toStrictEqual(expectedResult);
             expect(gridData).toStrictEqual(cloneGridData);
+        });
+
+    });
+
+    describe('updateDuplicateBoxEntry', ()=>{
+
+        it('Should set cell "invalid" property "true", if there are multiple cells with same value, in a box containing the given cell', () => {
+
+            const gridData = [
+                [
+                    {
+                        id: 0,
+                        value:1,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 1,
+                        value:2,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 2,
+                        value:3,
+                        invalid:false,
+                        prefilled:true 
+                    }
+                ],
+                [
+                    {
+                        id: 9,
+                        value:4,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 10,
+                        value:1,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 11,
+                        value:6,
+                        invalid:false,
+                        prefilled:true 
+                    }
+                ],
+                [
+                    {
+                        id: 18,
+                        value:7,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 19,
+                        value:8,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 20,
+                        value:1,
+                        invalid:false,
+                        prefilled:true 
+                    }
+                ],
+            ];
+
+            const expectedResult =  [
+                [
+                    {
+                        id: 0,
+                        value:1,
+                        invalid:true,
+                        prefilled:true 
+                    },
+                    {
+                        id: 1,
+                        value:2,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 2,
+                        value:3,
+                        invalid:false,
+                        prefilled:true 
+                    }
+                ],
+                [
+                    {
+                        id: 9,
+                        value:4,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 10,
+                        value:1,
+                        invalid:true,
+                        prefilled:true 
+                    },
+                    {
+                        id: 11,
+                        value:6,
+                        invalid:false,
+                        prefilled:true 
+                    }
+                ],
+                [
+                    {
+                        id: 18,
+                        value:7,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 19,
+                        value:8,
+                        invalid:false,
+                        prefilled:true 
+                    },
+                    {
+                        id: 20,
+                        value:1,
+                        invalid:true,
+                        prefilled:true 
+                    }
+                ],
+            ];
+            const cellID =0;
+            const newGriDData = updateDuplicateBoxEntry(gridData,cellID);
+
+            expect(newGriDData).toStrictEqual(expectedResult);
+
+        });
+
+    });
+
+    describe('getBoxItems', () => {
+
+        it('Should get the array of items in a box of sudoku staring with given row and column', () =>{
+            const gridData=[
+                [
+                    {
+                        id:0
+                    },
+                    {
+                        id:1
+                    },
+                    {
+                        id:2
+                    },
+                    {
+                        id:3
+                    },
+                    {
+                        id:4
+                    },
+                    {
+                        id:5
+                    }
+                ],
+                [
+                    {
+                        id:9
+                    },
+                    {
+                        id:10
+                    },
+                    {
+                        id:11
+                    },
+                    {
+                        id:12
+                    },
+                    {
+                        id:13
+                    },
+                    {
+                        id:14
+                    }
+                ],
+                [
+                    {
+                        id:18
+                    },
+                    {
+                        id:19
+                    },
+                    {
+                        id:20
+                    },
+                    {
+                        id:21
+                    },
+                    {
+                        id:22
+                    },
+                    {
+                        id:23
+                    }
+                ],
+            ];
+        
+            const boxStartRow =0;
+            const boxStartColumn=3;
+
+            const expectedResult =[{id:3},{id:4},{id:5},{id:12},{id:13},{id:14},{id:21},{id:22},{id:23}];
+            expect(getBoxItems(gridData,boxStartRow,boxStartColumn)).toStrictEqual(expectedResult);
+        });
+
+
+    });
+
+    describe('getBoxStartingIndexes',()=>{
+        it('Should return the sudoku starting row and column for a given cell ID',()=>{
+            expect(getBoxStartingIndexes(7)).toStrictEqual({boxStartingRow:0,boxStartingColumn:6});
+            expect(getBoxStartingIndexes(27)).toStrictEqual({boxStartingRow:3,boxStartingColumn:0});
+            expect(getBoxStartingIndexes(80)).toStrictEqual({boxStartingRow:6,boxStartingColumn:6});
         });
 
     })
